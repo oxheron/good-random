@@ -1,7 +1,12 @@
 #pragma once
 
 // Gets a list of random bytes
+#include <random>
+
 size_t sysrandom(void* dst, size_t dstlen);
+
+// Seeds a mt19937 with above sysrandom
+std::mt19937 setup_mt();
 
 #ifdef GOOD_RANDOM_IMPL 
 #ifdef _WIN32
@@ -46,4 +51,16 @@ size_t sysrandom(void* dst, size_t dstlen)
     return dstlen;
 }
 #endif
+
+std::mt19937 setup_mt()
+{
+    std::array<std::mt19937::UIntType, std::mt19937::state_size> state;
+    sysrandom(state.begin(), state.length * sizeof(std::mt19937::UIntType));
+    std::seed_seq s(state.begin(), state.end());
+
+    std::mt19937 g;
+    g.seed(s);
+    return g;
+}
+
 #endif
