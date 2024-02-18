@@ -55,7 +55,7 @@ size_t sysrandom(void* dst, size_t dstlen)
 std::mt19937 setup_mt()
 {
     std::array<uint_fast32_t, std::mt19937::state_size> state;
-    sysrandom(state.begin(), state.length * sizeof(uint_fast32_t));
+    sysrandom(state.begin(), state.size() * sizeof(uint_fast32_t));
     std::seed_seq s(state.begin(), state.end());
 
     std::mt19937 g;
