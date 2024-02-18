@@ -40,7 +40,7 @@ size_t sysrandom(void* dst, size_t dstlen)
     return dstlen;
 }
 #else
-#include <ifstream>
+#include <fstream>
 
 size_t sysrandom(void* dst, size_t dstlen)
 {
